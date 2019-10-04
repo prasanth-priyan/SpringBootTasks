@@ -1,6 +1,8 @@
 package com.stackroute.controller;
 
 import com.stackroute.domain.Movie;
+import com.stackroute.exceptions.MovieAlreadyExistsException;
+import com.stackroute.exceptions.MovieNotFoundException;
 import com.stackroute.service.MovieService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,7 @@ public class MovieController {
         try {
             Movie savedMovie = movieService.saveMovie(movie);
             responseEntity = new ResponseEntity<Movie>(savedMovie, HttpStatus.CREATED);
-        } catch (Exception e) {
+        } catch (MovieAlreadyExistsException e) {
             responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
         }
         return responseEntity;
@@ -38,7 +40,7 @@ public class MovieController {
             List<Movie> movieList = movieService.getAllMovies();
             responseEntity = new ResponseEntity<List<Movie>>(movieList, HttpStatus.OK);
         } catch (Exception e) {
-            responseEntity = new ResponseEntity<String>("Not found", HttpStatus.NOT_FOUND);
+            responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
         return responseEntity;
     }
@@ -49,8 +51,8 @@ public class MovieController {
         try {
             Movie retrievedMovie = movieService.getMovieById(id);
             responseEntity = new ResponseEntity<Movie>(retrievedMovie, HttpStatus.OK);
-        } catch (Exception e) {
-            responseEntity = new ResponseEntity<String>("Not found", HttpStatus.NOT_FOUND);
+        } catch (MovieNotFoundException e) {
+            responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
         return responseEntity;
     }
@@ -61,8 +63,8 @@ public class MovieController {
         try {
             movieService.deleteMovie(id);
             responseEntity = new ResponseEntity<String>("Successfully deleted", HttpStatus.OK);
-        } catch (Exception e) {
-            responseEntity = new ResponseEntity<String>("Not found", HttpStatus.NOT_FOUND);
+        } catch (MovieNotFoundException e) {
+            responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
         return responseEntity;
     }
@@ -72,7 +74,7 @@ public class MovieController {
         ResponseEntity responseEntity;
         try {
             responseEntity = new ResponseEntity<Movie>(movieService.updateMovieComments(id, comments), HttpStatus.OK);
-        } catch (Exception e) {
+        } catch (MovieNotFoundException e) {
             responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
         }
         return responseEntity;
@@ -83,7 +85,7 @@ public class MovieController {
         ResponseEntity responseEntity;
         try {
             responseEntity = new ResponseEntity<List<Movie>>(movieService.getMoviesByName(name), HttpStatus.OK);
-        } catch (Exception e) {
+        } catch (MovieNotFoundException e) {
             responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
         }
         return responseEntity;
