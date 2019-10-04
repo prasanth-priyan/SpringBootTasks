@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -49,5 +48,10 @@ public class MovieServiceImpl implements MovieService {
         return movieRepository.save(updatedMovie);
     }
 
+    @Override
+    public List<Movie> getMoviesByName(String name) {
+        List<Movie> retrievedMovies = movieRepository.findByMovieNameIgnoreCase(name);
+        return retrievedMovies;
+    }
 
 }
