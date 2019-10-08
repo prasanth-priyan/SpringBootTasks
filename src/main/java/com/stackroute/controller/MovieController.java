@@ -4,6 +4,8 @@ import com.stackroute.domain.Movie;
 import com.stackroute.exceptions.MovieAlreadyExistsException;
 import com.stackroute.exceptions.MovieNotFoundException;
 import com.stackroute.service.MovieService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,8 @@ import java.util.List;
 @RequestMapping(value = "stackroute/")
 public class MovieController {
 
+    @Autowired
+    @Qualifier("original")
     private MovieService movieService;
 
     public MovieController(MovieService movieService) {
