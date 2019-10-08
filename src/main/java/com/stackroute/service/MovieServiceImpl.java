@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service("original")
-@Profile("dev")
+@Primary
+//@Profile("dev")
 public class MovieServiceImpl implements MovieService {
 
     private MovieRepository movieRepository;
