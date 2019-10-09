@@ -16,17 +16,17 @@ import java.util.List;
 @RequestMapping(value = "stackroute/")
 public class MovieController {
 
-    @Autowired
     private MovieService movieService;
 
     private ResponseEntity responseEntity;
 
+    @Autowired
     public MovieController(MovieService movieService) {
         this.movieService = movieService;
     }
 
     @PostMapping("movie")
-    public ResponseEntity saveMovie(@RequestBody Movie movie) throws MovieAlreadyExistsException {
+    public ResponseEntity saveMovie(@RequestBody Movie movie) throws Exception, MovieAlreadyExistsException {
         Movie savedMovie = movieService.saveMovie(movie);
         responseEntity = new ResponseEntity<Movie>(savedMovie, HttpStatus.CREATED);
         return responseEntity;
