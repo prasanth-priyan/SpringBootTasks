@@ -5,7 +5,6 @@ import com.stackroute.exceptions.MovieAlreadyExistsException;
 import com.stackroute.exceptions.MovieNotFoundException;
 import com.stackroute.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import java.util.List;
 
 @Service("original")
 @Primary
-//@Profile("dev")
+@Profile("dev")
 public class MovieServiceImpl implements MovieService {
 
     private MovieRepository movieRepository;
@@ -45,16 +44,18 @@ public class MovieServiceImpl implements MovieService {
         if(!movieRepository.existsById(id)){
             throw new MovieNotFoundException("Movie not found");
         }
-        Movie retrievedMovie=movieRepository.findById(id).get();
+        Movie retrievedMovie = movieRepository.findById(id).get();
         return retrievedMovie;
     }
 
 
-    public void deleteMovie(int id) throws MovieNotFoundException {
+    public Movie deleteMovie(int id) throws MovieNotFoundException {
         if(!movieRepository.existsById(id)){
             throw new MovieNotFoundException("Movie does not exist");
         }
+        Movie deletedMovie = movieRepository.findById(id).get();
         movieRepository.deleteById(id);
+        return deletedMovie;
     }
 
     public Movie updateMovieComments(int id, String comments) throws MovieNotFoundException{
