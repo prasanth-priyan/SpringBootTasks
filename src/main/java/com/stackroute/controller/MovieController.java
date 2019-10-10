@@ -26,7 +26,7 @@ public class MovieController {
     }
 
     @PostMapping("movie")
-    public ResponseEntity saveMovie(@RequestBody Movie movie) throws Exception, MovieAlreadyExistsException {
+    public ResponseEntity saveMovie(@RequestBody Movie movie) throws MovieAlreadyExistsException, Exception {
         Movie savedMovie = movieService.saveMovie(movie);
         responseEntity = new ResponseEntity<Movie>(savedMovie, HttpStatus.CREATED);
         return responseEntity;
@@ -40,26 +40,26 @@ public class MovieController {
     }
 
     @GetMapping("movie/{id}")
-    public ResponseEntity getMovieById(@PathVariable int id) throws MovieNotFoundException {
+    public ResponseEntity getMovieById(@PathVariable int id) throws MovieNotFoundException, Exception {
         Movie retrievedMovie = movieService.getMovieById(id);
         responseEntity = new ResponseEntity<Movie>(retrievedMovie, HttpStatus.OK);
         return responseEntity;
     }
 
     @DeleteMapping("movie/{id}")
-    public ResponseEntity deleteMovie(@PathVariable int id) throws MovieNotFoundException {
+    public ResponseEntity deleteMovie(@PathVariable int id) throws MovieNotFoundException, Exception {
         responseEntity = new ResponseEntity<Movie>(movieService.deleteMovie(id), HttpStatus.OK);
         return responseEntity;
     }
 
-    @PutMapping("movie/{id}")
-    public ResponseEntity updateComments(@PathVariable int id, @RequestBody String comments) throws MovieNotFoundException {
-        responseEntity = new ResponseEntity<Movie>(movieService.updateMovieComments(id, comments), HttpStatus.OK);
+    @PutMapping("movie")
+    public ResponseEntity updateMovie(@RequestBody Movie movie) throws MovieNotFoundException, Exception {
+        responseEntity = new ResponseEntity<Movie>(movieService.updateMovie(movie), HttpStatus.OK);
         return responseEntity;
     }
 
     @GetMapping("movie/byName/{name}")
-    public ResponseEntity getMoviesByName(@PathVariable String name) throws MovieNotFoundException {
+    public ResponseEntity getMoviesByName(@PathVariable String name) throws MovieNotFoundException, Exception {
         responseEntity = new ResponseEntity<List<Movie>>(movieService.getMoviesByName(name), HttpStatus.OK);
         return responseEntity;
     }

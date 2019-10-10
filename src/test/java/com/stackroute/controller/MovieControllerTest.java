@@ -116,7 +116,7 @@ public class MovieControllerTest {
 
     @Test
     public void updateComments() throws Exception {
-        when(movieService.updateMovieComments(anyInt(),any())).thenReturn(movie);
+        when(movieService.updateMovie(any())).thenReturn(movie);
         mockMvc.perform(MockMvcRequestBuilders.put("/stackroute/movie/{id}",101)
                 .contentType(MediaType.APPLICATION_JSON).content(asJsonString(movie)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -125,7 +125,7 @@ public class MovieControllerTest {
 
     @Test
     public void updateCommentsFailure() throws Exception {
-        when(movieService.updateMovieComments(anyInt(), any())).thenThrow(MovieNotFoundException.class);
+        when(movieService.updateMovie(any())).thenThrow(MovieNotFoundException.class);
         mockMvc.perform(MockMvcRequestBuilders.put("/stackroute/movie/{id}",100)
                 .contentType(MediaType.APPLICATION_JSON).content(asJsonString(movie)))
                 .andExpect(MockMvcResultMatchers.status().isConflict())

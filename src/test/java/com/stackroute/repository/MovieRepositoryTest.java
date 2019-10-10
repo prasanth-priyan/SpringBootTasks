@@ -44,7 +44,7 @@ public class MovieRepositoryTest {
         Movie testMovie = new Movie(102, "Pokemon", "Gotta catch'em all!!!");
         movieRepository.save(movie);
         Movie savedMovie = movieRepository.findById(movie.getMovieId()).get();
-        Assert.assertNotSame(testMovie, movie);
+        Assert.assertNotSame(testMovie, savedMovie);
     }
 
     @Test
@@ -59,6 +59,52 @@ public class MovieRepositoryTest {
     }
 
     @Test
-    public void findByMovieNameIgnoreCase() {
+    public void testFindMovieById(){
+        movieRepository.save(movie);
+        Movie retrievedMovie = movieRepository.findById(movie.getMovieId()).get();
+        Assert.assertEquals(movie, retrievedMovie);
+    }
+
+    @Test
+    public void testFindMovieByIdFailure(){
+
+    }
+
+    @Test
+    public void testUpdateMovie(){
+        Movie testMovie = new Movie(101, "Pokemon", "Gotta catch'em all!!!");
+        movieRepository.save(movie);
+        Movie updatedMovie = movieRepository.save(testMovie);
+        Assert.assertEquals(testMovie, updatedMovie);
+        Assert.assertNotSame(testMovie, movie);
+    }
+
+    @Test
+    public void testUpdateMovieFailure(){
+
+    }
+
+    @Test
+    public void testDeleteMovie(){
+        movieRepository.save(movie);
+        movieRepository.delete(movie);
+        Assert.assertFalse(movieRepository.existsById(movie.getMovieId()));
+    }
+
+    @Test
+    public void testDeleteMovieFailure(){
+
+    }
+
+    @Test
+    public void testFindByMovieName() {
+        movieRepository.save(movie);
+        List<Movie> retrievedList = movieRepository.findByMovieNameIgnoreCase(movie.getMovieName());
+        Assert.assertEquals(movie, retrievedList.get(0));
+    }
+
+    @Test
+    public void testFindByMovieNameFailure() {
+
     }
 }

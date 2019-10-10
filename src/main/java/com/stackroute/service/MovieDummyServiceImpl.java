@@ -34,7 +34,7 @@ public class MovieDummyServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie updateMovieComments(int id, String comments) throws MovieNotFoundException {
+    public Movie updateMovie(Movie movie) throws MovieNotFoundException {
         return null;
     }
 

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @PropertySource("classpath:values.properties")
 @ConfigurationProperties(prefix = "movie")
-public class StartupDatabaseSeederApproach2 implements CommandLineRunner {
+public class StartupDatabaseSeederApproachB implements CommandLineRunner {
 
     private MovieRepository movieRepository;
     private Movie movie;

@@ -24,7 +24,7 @@ public class MovieServiceImpl implements MovieService {
         this.movieRepository = movieRepository;
     }
 
-    public Movie saveMovie(Movie movie) throws MovieAlreadyExistsException{
+    public Movie saveMovie(Movie movie) throws MovieAlreadyExistsException, Exception{
         if(movieRepository.existsById(movie.getMovieId())){
             throw new MovieAlreadyExistsException("Movie already exists");
         }
@@ -35,12 +35,12 @@ public class MovieServiceImpl implements MovieService {
         return savedMovie;
     }
 
-    public List<Movie> getAllMovies() {
+    public List<Movie> getAllMovies() throws Exception {
         List<Movie> movieList = new ArrayList<>(movieRepository.findAll());
         return movieList;
     }
 
-    public Movie getMovieById(int id) throws MovieNotFoundException {
+    public Movie getMovieById(int id) throws MovieNotFoundException, Exception {
         if(!movieRepository.existsById(id)){
             throw new MovieNotFoundException("Movie not found");
         }
@@ -49,7 +49,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
 
-    public Movie deleteMovie(int id) throws MovieNotFoundException {
+    public Movie deleteMovie(int id) throws MovieNotFoundException, Exception {
         if(!movieRepository.existsById(id)){
             throw new MovieNotFoundException("Movie does not exist");
         }
@@ -58,16 +58,15 @@ public class MovieServiceImpl implements MovieService {
         return deletedMovie;
     }
 
-    public Movie updateMovieComments(int id, String comments) throws MovieNotFoundException{
-        if(!movieRepository.existsById(id)){
+    public Movie updateMovie(Movie movie) throws MovieNotFoundException, Exception {
+        if(!movieRepository.existsById(movie.getMovieId())){
             throw new MovieNotFoundException("Movie not found");
         }
-        Movie updatedMovie = movieRepository.getOne(id);
-        updatedMovie.setMovieComments(comments);
-        return movieRepository.save(updatedMovie);
+        Movie updatedMovie = movieRepository.save(movie);
+        return updatedMovie;
     }
 
-    public List<Movie> getMoviesByName(String name) throws MovieNotFoundException{
+    public List<Movie> getMoviesByName(String name) throws MovieNotFoundException, Exception {
         List<Movie> retrievedMovies = movieRepository.findByMovieNameIgnoreCase(name);
         if(retrievedMovies.toString().equals("[]")){
             throw new MovieNotFoundException("No movie found with the given name");

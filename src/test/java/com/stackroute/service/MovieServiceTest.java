@@ -2,6 +2,7 @@ package com.stackroute.service;
 
 import com.stackroute.domain.Movie;
 import com.stackroute.exceptions.MovieAlreadyExistsException;
+import com.stackroute.exceptions.MovieNotFoundException;
 import com.stackroute.repository.MovieRepository;
 import org.junit.After;
 import org.junit.Assert;
@@ -39,45 +40,83 @@ public class MovieServiceTest {
 
 
     @Test
-    public void saveMovie() throws MovieAlreadyExistsException {
+    public void saveMovie() throws Exception {
         when(movieRepository.save((Movie) any())).thenReturn(movie);
         Movie savedMovie = movieService.saveMovie(movie);
         Assert.assertEquals(movie,savedMovie);
 
-        //verify here verifies that userRepository save method is only called once
+        //verify here verifies that movieRepository save method is only called once
         verify(movieRepository,times(1)).save(movie);
 
     }
 
     @Test(expected = MovieAlreadyExistsException.class)
-    public void saveMovieFailure() throws MovieAlreadyExistsException {
+    public void saveMovieFailure() throws Exception {
         when(movieRepository.save((Movie) any())).thenReturn(null);
         Movie savedMovie = movieService.saveMovie(movie);
         System.out.println("savedMovie: " + savedMovie);
     }
 
     @Test
-    public void getAllMovies() {
+    public void getAllMovies() throws Exception {
         movieRepository.save(movie);
         //stubbing the mock to return specific data
         when(movieRepository.findAll()).thenReturn(list);
-        List<Movie> movielist = movieService.getAllMovies();
-        Assert.assertEquals(list, movielist);
+        List<Movie> movieList = movieService.getAllMovies();
+        Assert.assertEquals(list, movieList);
     }
 
     @Test
-    public void getMovieById() {
+    public void getMovieById() throws Exception {
+        when(movieRepository.findById(anyInt()).get()).thenReturn(movie);
+        Movie retrievedMovie = movieService.getMovieById(movie.getMovieId());
+        Assert.assertEquals(movie, retrievedMovie);
+    }
+
+    @Test(expected = MovieNotFoundException.class)
+    public void getMovieByIdFailure() throws Exception {
+        when(movieRepository.existsById(anyInt())).thenReturn(false);
+        Movie retrievedMovie = movieService.getMovieById(movie.getMovieId());
+        System.out.println("retrievedMovie: " + retrievedMovie);
     }
 
     @Test
-    public void deleteMovie() {
+    public void updateMovie() throws Exception {
+        when(movieRepository.save((Movie) any())).thenReturn(movie);
+        Movie updatedMovie = movieService.saveMovie(movie);
+        Assert.assertEquals(movie, updatedMovie);
+    }
+
+    @Test(expected = MovieNotFoundException.class)
+    public void updateMovieFailure() throws Exception {
+        when(movieRepository.existsById(anyInt())).thenReturn(false);
+        Movie updatedMovie = movieService.updateMovie(movie);
+        System.out.println("updatedMovie : " + updatedMovie);
     }
 
     @Test
-    public void updateMovieComments() {
+    public void getMoviesByName() throws Exception {
+        when(movieRepository.findByMovieNameIgnoreCase(anyString())).thenReturn(list);
+        List<Movie> movieList = movieService.getMoviesByName(movie.getMovieName());
+        Assert.assertEquals(list, movieList);
     }
 
     @Test
-    public void getMoviesByName() {
+    public void getMoviesByNameFailure() {
     }
+
+    @Test
+    public void deleteMovie() throws Exception {
+        when(movieRepository.findById(anyInt()).get()).thenReturn(movie);
+        Movie deletedMovie = movieService.deleteMovie(movie.getMovieId());
+        Assert.assertEquals(movie, deletedMovie);
+    }
+
+    @Test(expected = MovieNotFoundException.class)
+    public void deleteMovieFailure() throws Exception {
+        when(movieRepository.existsById(anyInt())).thenReturn(false);
+        Movie deletedMovie = movieService.deleteMovie(movie.getMovieId());
+        System.out.println("deletedMovie : " + deletedMovie);
+    }
+
 }

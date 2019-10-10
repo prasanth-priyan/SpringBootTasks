@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @PropertySource("classpath:values.properties")
-public class StartupDatabaseSeederApproach1 implements ApplicationListener<ContextRefreshedEvent> {
+public class StartupDatabaseSeederApproachA implements ApplicationListener<ContextRefreshedEvent> {
 
     private MovieRepository movieRepository;
     private Movie movie;
