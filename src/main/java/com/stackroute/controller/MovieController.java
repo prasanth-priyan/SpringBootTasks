@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(value = "stackroute/")
+@RequestMapping(value = "api/v1")
 public class MovieController {
 
     private MovieService movieService;
