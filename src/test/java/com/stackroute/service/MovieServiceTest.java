@@ -4,7 +4,6 @@ import com.stackroute.domain.Movie;
 import com.stackroute.exceptions.MovieAlreadyExistsException;
 import com.stackroute.exceptions.MovieNotFoundException;
 import com.stackroute.repository.MovieRepository;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +14,6 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -96,7 +94,7 @@ public class MovieServiceTest {
 
     @Test
     public void getMoviesByName() throws Exception {
-        when(movieRepository.findByMovieNameIgnoreCase(anyString())).thenReturn(list);
+        when(movieRepository.findByName(anyString())).thenReturn(list);
         List<Movie> movieList = movieService.getMoviesByName(movie.getMovieName());
         Assert.assertEquals(list, movieList);
     }

@@ -12,8 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class MovieRepositoryTest {
@@ -99,7 +97,7 @@ public class MovieRepositoryTest {
     @Test
     public void testFindByMovieName() {
         movieRepository.save(movie);
-        List<Movie> retrievedList = movieRepository.findByMovieNameIgnoreCase(movie.getMovieName());
+        List<Movie> retrievedList = movieRepository.findByName(movie.getMovieName());
         Assert.assertEquals(movie, retrievedList.get(0));
     }
 

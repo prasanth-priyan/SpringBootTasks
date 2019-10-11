@@ -65,7 +65,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     public List<Movie> getMoviesByName(String name) throws MovieNotFoundException, Exception {
-        List<Movie> retrievedMovies = movieRepository.findByMovieNameIgnoreCase(name);
+        List<Movie> retrievedMovies = movieRepository.findByName(name);
         if(retrievedMovies.toString().equals("[]")){
             throw new MovieNotFoundException("No movie found with the given name");
         }
